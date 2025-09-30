@@ -20,19 +20,27 @@ var init = function (window) {
         ///////////////////
         
         // TODO 1 : Declare and initialize our variables
-
+        var circle; // variable to hold a single circle when creating circles / iterating
+        var circles = []; // variable to store all circles in an array
 
 
         // TODO 2 : Create a function that draws a circle 
-        
+        function drawCircle(){ //the function that draws the circle
+            circle = draw.randomCircleInArea(canvas, true, true, "#db2323ff", 2); // draws a circle in a random spot
+        physikz.addRandomVelocity(circle, canvas, 5, 5); // this gives the circles random velocities.
+        view.addChild(circle);
+        circles.push(circle);
+        }
 
 
         // TODO 3 : Call the drawCircle() function
-
+       // drawCircle();  draws one circle
 
 
         // TODO 7 : Use a loop to create multiple circles
-
+        for (var i = 0; i < 100; i++) { //Creates 100 circles by calling drawCircle() 100 times
+            drawCircle()
+        }
 
 
 
@@ -46,14 +54,28 @@ var init = function (window) {
         and check to see if it has drifted off the screen.         
         */
         function update() {
+            
             // TODO 4 : Update the position of each circle using physikz.updatePosition()
-
+           /* physikz.updatePosition(circles[0]); bracket notation to access a circle from the circles array */
+           /* physikz.updatePosition(circles[1]); bracket notation to access the first circle */
+           /* physikz.updatePosition(circles[2]); bracket notation to access the second circle */
+           /* physikz.updatePosition(circles[3]); bracket notation to access the third circle */
+           /* physikz.updatePosition(circles[4]); bracket notation to access the fourth circle */
+           /* physikz.updatePosition(circles[5]); bracket notation to access the fifth circle */ 
             
             // TODO 5 : Call game.checkCirclePosition() on your circles
-           
-
+            /*game.checkCirclePosition(circles[0]); bracket notation to access the first circle */
+            /*game.checkCirclePosition(circles[1]); bracket notation to access the second circle */
+            /*game.checkCirclePosition(circles[2]); bracket notation to access the third circle */
+            /*game.checkCirclePosition(circles[3]); bracket notation to access the fourth circle */
+            /*game.checkCirclePosition(circles[4]); bracket notation to access the fifth circle */
+            
             // TODO 8 / TODO 9 : Iterate over the array
-           
+            for (var i = 0; i < 100; i++) {
+            physikz.updatePosition(circles[i]); /* bracket notation to access a circle inside the loop. */
+            game.checkCirclePosition(circles[i]); /* bracket notation to access the circles */
+        }
+          
             
         }
     
@@ -70,8 +92,15 @@ var init = function (window) {
             }
             
             // TODO 6 : YOUR CODE STARTS HERE //////////////////////
-            
-
+            if(circle.x < 0){ //whenever the circle goes past the sides, it goes back to the other side
+                circle.x = 1900;
+            }
+            if(circle.y < 0){ //whenever the circle goes past the top, it goes back to the bottom
+                circle.y = 1000;
+            }
+            if(circle.y > 1000){ //whenever the circle goes past the bottom, it goes beck to the top
+                circle.y = 0;
+            }
 
             // YOUR TODO 6 CODE ENDS HERE //////////////////////////
         }
