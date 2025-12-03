@@ -37,31 +37,99 @@ var runLevels = function (window) {
     createObstacle(600, groundY - 110, 10);
     createObstacle(800, groundY - 110, 10); 
 
-    var enemy = game.createGameItem("enemy", 25);
-    var redSquare = draw.rect(50, 50, "red");
-    redSquare.x = -25;
-    redSquare.y = -25;
-    enemy.addChild(redSquare);
-    enemy.x = 400;
-    enemy.y = groundY - 50;
-    game.addGameItem(enemy);
+   function createEnemy(x,y){
+      var enemy = game.createGameItem("enemy", 25);
+      var enemyImage = draw.rect(50, 50, "red"); //creates image of th enemy and stores it to the enemyImage variable
+        enemyImage.x = -25; //horizontal offset of hitzone
+        enemyImage.y = -25; //verticle offset of hitzone
+        enemy.addChild(enemyImage); //attaches image to enemy object
+        enemy.x = x; //sets x position of enemy
+        enemy.y = y; //sets y position of enemy
+        game.addGameItem(enemy); //adds the enemy to the game
 
 
-    enemy.velocityX -= 5
-    enemy.onPlayerCollision = function(){
-      game.changeIntegrity(-15)
+        enemy.velocityX -= 5 //sets the speed of the enemy
+
+        // handles when Halle collides with enemy
+        enemy.onPlayerCollision = function(){
+        game.changeIntegrity(-15) //enemy's damage to the player's health
+      }
+
+        enemy.onProjectileCollision = function(){
+        game.increaseScore(100); //increases the player's score by 100 when projectile collision
+        enemy.fadeOut(); //enemy fades out when Halle's projectile collides with it
+      }
+    }
+    createEnemy(400, groundY-50);
+    createEnemy(800, groundY-50);
+
+    function createReward(x,y){
+      var reward = game.createGameItem("reward", 25);
+      var rewardImage = draw.rect(50, 50, "blue"); //creates image of th reward and stores it to the rewardImage variable
+        rewardImage.x = -25; //horizontal offset of hitzone
+        rewardImage.y = -25; //verticle offset of hitzone
+        reward.addChild(rewardImage); //attaches image to reward object
+        reward.x = x; //sets x position of reward
+        reward.y = y; //sets y position of reward
+        game.addGameItem(reward); //adds the reward to the game
+
+
+        reward.velocityX -= 5 //sets the speed of the reward
+
+        // handles when Halle collides with enemy
+        reward.onPlayerCollision = function(){
+        game.changeIntegrity(20) //reward's gift to the player's health
+      }
+
+        reward.onProjectileCollision = function(){
+        game.increaseScore(100); //increases the player's score by 100 when projectile collision
+        reward.fadeOut(); //reward fades out when Halle's projectile collides with it
+      }
     }
 
-enemy.onProjectileCollision = function(){
-      game.increaseScore(100);
-      enemy.fadeOut();
+    createReward(1000, groundY-75 );
+
+function createLevelMarker(x,y){
+      var levelMarker = game.createGameItem("level", 25);
+      var levelImage = draw.rect(50, 50, "yellow"); //creates image of th reward and stores it to the rewardImage variable
+        levelImage.x = -25; //horizontal offset of hitzone
+        levelImage.y = -25; //verticle offset of hitzone
+        levelMarker.addChild(levelImage); //attaches image to reward object
+        levelMarker.x = x; //sets x position of level marker
+        levelMarker.y = y; //sets y position of level marker
+        game.addGameItem(levelMarker); //adds the reward to the game
+
+
+        levelMarker.velocityX -= 1 //sets the speed of the reward
+
+        // handles when Halle collides with enemy
+        levelMarker.onPlayerCollision = function(){
+        game.changeIntegrity(20) //level marker
+      }
+
+        levelMarker.onProjectileCollision = function(){
+        game.increaseScore(100); //increases the player's score by 100 when projectile collision
+        levelMarker.fadeOut(); //reward fades out when Halle's projectile collides with it
+      }
     }
-
-
-
+    
+    createLevelMarker(1600, groundY-50)
 
     function startLevel() {
       // TODO 13 goes below here
+    var level = levelData[currentLevel]; //fetches the current level from the level data array and stores it inside of the level variable 
+    var levelObjects = level.gameItems; //retrueves the array of gameItems and stores it in levelObjects variable
+
+    for(var i = 0; i < levelObjects.length; i++){
+      var element = levelObjects[i];
+
+      if(element.type === "obstacle"){}
+      createObstacle(element.x, element.y, element.damage);
+    }
+
+
+
+
 
 
 
