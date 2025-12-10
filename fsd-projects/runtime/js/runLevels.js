@@ -18,24 +18,23 @@ var runLevels = function (window) {
 
     // TODOs 5 through 11 go here
     // BEGIN EDITING YOUR CODE HERE
-      function createObstacle(x, y, damage){
+      function createObstacle(x, y, damage, rotation){
       var hitZoneSize = 25; //size of collision area of obstacle
       var damageFromObstacle = damage; //amount of damage the obstacle does
       var obstacleHitZone = game.createObstacle(hitZoneSize, damageFromObstacle); //creates the obstacle and gives it a size and hitzone.
       obstacleHitZone.x = x; //sets the obstacles x position
       obstacleHitZone.y = y; //sets the obstacles y position
       game.addGameItem(obstacleHitZone); //adds the obstacle to the game
-      var obstacleImage = draw.bitmap("img/sawblade.png"); //draws the saw image as a bitmap and stores it to obstacle image
+      var obstacleImage = draw.bitmap("img/spike.png"); //draws the saw image as a bitmap and stores it to obstacle image
       obstacleHitZone.addChild(obstacleImage); //adds the picture as a child to the hitzone
       obstacleImage.x = -25; // offsets the image horizontally relative to the hitzone
       obstacleImage.y = -25; // offsets the image vertically relative to the hitzone
-
-      obstacleHitZone.rotationalVelocity = 50;
+      obstacleImage.scaleX = 0.05;
+      obstacleImage.scaleY = 0.05;
+      obstacleHitZone.rotationalVelocity = rotation;
 
     }
-    createObstacle(400, groundY - 110, 10);
-    createObstacle(600, groundY - 110, 10);
-    createObstacle(800, groundY - 110, 10); 
+     
 
    function createEnemy(x,y){
       var enemy = game.createGameItem("enemy", 25);
@@ -60,8 +59,7 @@ var runLevels = function (window) {
         enemy.fadeOut(); //enemy fades out when Halle's projectile collides with it
       }
     }
-    createEnemy(400, groundY-50);
-    createEnemy(800, groundY-50);
+    
 
     function createReward(x,y){
       var reward = game.createGameItem("reward", 25);
@@ -79,17 +77,14 @@ var runLevels = function (window) {
         // handles when Halle collides with enemy
         reward.onPlayerCollision = function(){
         game.changeIntegrity(20) //reward's gift to the player's health
+        reward.fadeOut();//reward fades out when Halle's projectile collides with it
       }
 
-        reward.onProjectileCollision = function(){
-        game.increaseScore(100); //increases the player's score by 100 when projectile collision
-        reward.fadeOut(); //reward fades out when Halle's projectile collides with it
-      }
     }
 
-    createReward(1000, groundY-75 );
+    
 
-function createLevelMarker(x,y){
+    function createLevelMarker(x,y){
       var levelMarker = game.createGameItem("level", 25);
       var levelImage = draw.rect(50, 50, "yellow"); //creates image of th reward and stores it to the rewardImage variable
         levelImage.x = -25; //horizontal offset of hitzone
@@ -113,20 +108,30 @@ function createLevelMarker(x,y){
       }
     }
     
-    createLevelMarker(1600, groundY-50)
+    
 
     function startLevel() {
       // TODO 13 goes below here
-    var level = levelData[currentLevel]; //fetches the current level from the level data array and stores it inside of the level variable 
-    var levelObjects = level.gameItems; //retrueves the array of gameItems and stores it in levelObjects variable
+     var level = levelData[currentLevel]; //fetches the current level from the level data array and stores it inside of the level variable 
+      var levelObjects = level.gameItems; //retrueves the array of gameItems and stores it in levelObjects variable
 
-    for(var i = 0; i < levelObjects.length; i++){
-      var element = levelObjects[i];
+      for(var i = 0; i < levelObjects.length; i++){
+        var element = levelObjects[i];
 
-      if(element.type === "obstacle"){}
-      createObstacle(element.x, element.y, element.damage);
-    }
-
+        if(element.type === "obstacle"){
+          createObstacle(element.x, element.y, element.damage, element.rotation);
+        }
+        if(element.type === "enemy"){
+          createEnemy(element.x, element.y);
+        }
+        if(element.type === "reward"){
+          createReward(element.x, element.y);
+        }
+        if(element.type === "levelMarker"){
+          createLevelMarker(element.x, element.y);
+        }
+      }
+    
 
 
 
@@ -154,3 +159,4 @@ if (
   // here, export any references you need for tests //
   module.exports = runLevels;
 }
+
