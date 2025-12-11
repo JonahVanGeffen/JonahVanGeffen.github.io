@@ -38,7 +38,9 @@ var runLevels = function (window) {
 
    function createEnemy(x,y){
       var enemy = game.createGameItem("enemy", 25);
-      var enemyImage = draw.rect(50, 50, "red"); //creates image of th enemy and stores it to the enemyImage variable
+      var enemyImage = draw.bitmap("img/Goomba.png"); //creates image of th enemy and stores it to the enemyImage variable
+        enemyImage.scaleX = 0.5;
+        enemyImage.scaleY = 0.5;
         enemyImage.x = -25; //horizontal offset of hitzone
         enemyImage.y = -25; //verticle offset of hitzone
         enemy.addChild(enemyImage); //attaches image to enemy object
