@@ -19,6 +19,7 @@ var makeLevelData = function (window) {
           { type: "obstacle", x: 600, y: groundY-10, damage: 10, rotation: 0 },
           { type: "obstacle", x: 900, y: groundY-10, damage: 10, rotation: 0},
           { type: "obstacle", x: 1300, y: groundY-10, damage: 10, rotation: 0},
+          { type: "obstacle", x: 2000, y: groundY-10, damage: 10, rotation: 0},
           { type: "enemy", x: 400, y: groundY-50 }, 
           { type: "enemy", x: 1500, y: groundY-50 },
           { type: "enemy", x: 2050, y: groundY-50 },
